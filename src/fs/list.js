@@ -1,5 +1,22 @@
+import fs from 'node:fs';
+import { filesDirectoryPath, fsErrorMessage, __dirname } from './constants.js';
+
+const { access, readdir } = fs.promises;
+
 const list = async () => {
-    // Write your code here 
+    try {
+        await access(filesDirectoryPath, fs.constants.F_OK);
+    } catch {
+        throw new Error(fsErrorMessage);
+    }
+
+    try {
+        const files = await readdir(filesDirectoryPath);
+
+        console.log(files);
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 await list();
